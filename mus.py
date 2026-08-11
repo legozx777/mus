@@ -142,20 +142,20 @@ def search(rep, options=""):
         #        noCover += 1
         #        print(name)
 
-        if rep in name.lower() or (doEnds and rep[0] == name[0] and rep[-1] == name[-1]):
+        if rep in name.lower() or (doEnds and name.startswith(rep[0]) and name.endswith(rep[-1])):
             if doFound:
                 foundFile.write(file+"\n")
             newName = name
             if doEnds and doRemove:
                 newName = newName[1:-1].removeprefix("　").removeprefix(" ").removesuffix("　").removesuffix(" ")
             elif doStrictRemove:
-                newName = newName.replace(rep,"")
+                newName = newName.replace(rep, "")
             else:
-                if name[:len(rep)].lower() == rep: # rep at the beginning
+                if newName.lower().startswith(rep):
                     bOrE += 1
                     if doRemove:
                         newName = newName[len(rep):].removeprefix("　").removeprefix(" ")
-                if name[-len(rep):].lower() == rep: # rep at the end
+                if newName.lower().endswith(rep):
                     bOrE += 1
                     if doRemove:
                         newName = newName[:-len(rep)].removesuffix("　").removesuffix(" ")
