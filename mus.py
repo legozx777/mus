@@ -6,8 +6,8 @@ MUSD_FOLDERS = ["d", "long", "rand", "stream", "useful", "randmp3", "print"]
 folder = os.getenv("MUSD_DOWNLOAD_FOLDER")
 config = os.path.dirname(os.path.realpath(__file__))
 
-if folder == None:
-    print("No download folder set")
+if folder == None or not os.path.exists(folder):
+    print("Download folder does not exist or is not set")
     sys.exit()
 
 def download(subfolder, url):
