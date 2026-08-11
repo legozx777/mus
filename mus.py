@@ -2,12 +2,12 @@ import os, sys, time, re
 from dotenv import load_dotenv
 load_dotenv()
 
-MUSD_FOLDERS = ["d", "long", "rand", "stream", "useful", "randmp3", "print"]
-folder = os.getenv("MUSD_DOWNLOAD_FOLDER")
-config = os.path.dirname(os.path.realpath(__file__))
+SUB_FOLDERS = ["d", "long", "rand", "stream", "useful", "randmp3", "print"]
+BASE_FOLDER = os.getenv("MUS_BASE_FOLDER")
+PROGRAM_FOLDER = os.path.dirname(os.path.realpath(__file__))
 
-if folder == None or not os.path.exists(folder):
-    print("Download folder does not exist or is not set")
+if BASE_FOLDER == None or not os.path.exists(BASE_FOLDER):
+    print("Base folder does not exist or is not set")
     sys.exit()
 
 def download(subfolder, url):
@@ -17,17 +17,17 @@ def download(subfolder, url):
         url = url[:url.find("&")]
 
     url = url.removeprefix("=")
-    args = ["yt-dlp", "--config-location", os.path.join(config,"yt-dlp.conf"), "-P", os.path.join(folder,subfolder)]
+    args = ["yt-dlp", "--config-location", os.path.join(PROGRAM_FOLDER, "yt-dlp.conf"), "-P", os.path.join(BASE_FOLDER, subfolder)]
     match subfolder:
         case "d" | "long":
             args += ["-o", "\"%(title)s.%(ext)s\"", "-x", "--audio-format", "mp3", "--audio-quality", "128k"]
         case "rand" | "stream" | "useful":
             args += ["-f", "\"bv*[vcodec^=avc1][ext=mp4][height<=1080]+ba[ext=m4a]/b[vcodec^=avc1][ext=mp4][height<=1080]\""]
         case "randmp3":
-            args[4] = os.path.join(folder,"rand")
+            args[4] = os.path.join(BASE_FOLDER,"rand")
             args += ["-x", "--audio-format", "mp3", "--audio-quality", "128k"]
         case "print":
-            args = ["yt-dlp", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(config,"dname/id-"+time.strftime("%Y%m%d")+".txt")]
+            args = ["yt-dlp", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(PROGRAM_FOLDER, "dname/id-"+time.strftime("%Y%m%d")+".txt")]
         case _:
             print("Subfolder error - " + subfolder)
             return
@@ -47,7 +47,7 @@ def download(subfolder, url):
         args.pop(1)
         args.append("https://www.twitch.tv/videos/" + url)
     elif url == "" and subfolder == "print":
-        args.append(os.getenv("MUSD_DEFUALT_PLAYLIST"))
+        args.append(os.getenv("MUS_DEFUALT_PLAYLIST"))
         if args[-1] == None:
             print("No default playlist set")
             return
@@ -56,7 +56,7 @@ def download(subfolder, url):
         return
     errFile = ""
     if "playlist" in args[-1] or "show" in args[-1]:
-        errFile = os.path.join(config,f"logs/{time.strftime('%Y%m%d-%H%M')}.txt")
+        errFile = os.path.join(PROGRAM_FOLDER, f"logs/{time.strftime('%Y%m%d-%H%M')}.txt")
         args.append(f"2>{errFile}")
     print(" ".join(args))
     os.system(" ".join(args))
@@ -83,10 +83,10 @@ def search(rep, options=""):
         print("Title and Artist cannot go together")
         return
     if doBackup:
-        backupFile = open(os.path.join(config,f"dname/{time.strftime('%Y%m%d')}.txt"), "x", encoding="utf-8")
+        backupFile = open(os.path.join(PROGRAM_FOLDER, f"dname/{time.strftime('%Y%m%d')}.txt"), "x", encoding="utf-8")
     if doFound:
-        foundFile = open(os.path.join(config,f"dfound/{time.strftime('%Y%m%d')}-{rep}.txt"), "x", encoding="utf-8")
-    dir = os.path.join(folder,MUSD_FOLDERS[0])
+        foundFile = open(os.path.join(PROGRAM_FOLDER, f"dfound/{time.strftime('%Y%m%d')}-{rep}.txt"), "x", encoding="utf-8")
+    dir = os.path.join(BASE_FOLDER, SUB_FOLDERS[0])
     rep = rep.lower()
     count = 0
     bOrE = 0
@@ -225,7 +225,7 @@ def search(rep, options=""):
 
 if len(sys.argv) == 1:
     print("No arguments")
-elif sys.argv[1] in MUSD_FOLDERS:
+elif sys.argv[1] in SUB_FOLDERS:
     download(sys.argv[1],sys.argv[2])
 elif len(sys.argv) == 3:
     search(sys.argv[1],sys.argv[2])
