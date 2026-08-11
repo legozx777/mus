@@ -115,11 +115,10 @@ def search(rep, options=""):
             audio = ID3(path)
             name = audio["TPE1"].text[0]
         elif doAlbum:
-            try:
-                audio = ID3(path)
-                name = audio["TALB"].text[0]
-            except:
+            audio = ID3(path)
+            if "TALB" not in audio.keys():
                 continue
+            name = audio["TALB"].text[0]
         else: # default -> search by file name
             name = file.removesuffix(".mp3")
         #try:
@@ -196,17 +195,14 @@ def search(rep, options=""):
                 newName = re.sub(r" {2,}", " ", audio["TPE1"].text[0])
                 audio["TPE1"] = TPE1(encoding=3, text=newName)
                 audio.save(v2_version=3)
+            if "TALB" in audio.keys() and "  " in audio["TALB"].text[0]:
+                newName = re.sub(r" {2,}", " ", audio["TALB"].text[0])
+                audio["TALB"] = TALB(encoding=3, text=newName)
+                audio.save(v2_version=3)
             if "  " in file:
                 newName = re.sub(r" {2,}", " ", file)
                 newPath = os.path.join(dir, newName)
                 os.rename(os.path.join(dir, file), newPath)
-            try:
-                if "  " in audio["TALB"].text[0]:
-                    newName = re.sub(r" {2,}", " ", audio["TALB"].text[0])
-                    audio["TALB"] = TALB(encoding=3, text=newName)
-                    audio.save(v2_version=3)
-            except:
-                pass
     if doStatus:
         print("\ncount: " + str(count))
         print("beginning or end count: " + str(bOrE))
