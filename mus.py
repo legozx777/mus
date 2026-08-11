@@ -85,7 +85,7 @@ def search(rep, options=""):
     if doBackup:
         backupFile = open(os.path.join(config,f"dname/{time.strftime('%Y%m%d')}.txt"), "x", encoding="utf-8")
     if doFound:
-        foundFile = open(os.path.join(config,f"dfound/{time.strftime('%Y%m%d-%H%M')}-{rep}.txt"), "x", encoding="utf-8")
+        foundFile = open(os.path.join(config,f"dfound/{time.strftime('%Y%m%d')}-{rep}.txt"), "x", encoding="utf-8")
     dir = os.path.join(folder,MUSD_FOLDERS[0])
     rep = rep.lower()
     count = 0
