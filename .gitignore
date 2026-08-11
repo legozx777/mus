@@ -1,4 +1,5 @@
 .env
+yt-dlp.conf
 
 logs/*
 dname/*
