@@ -29,7 +29,7 @@ def download(subfolder, url):
         case "print":
             args = ["yt-dlp", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(config,"dname/id-"+time.strftime("%Y%m%d")+".txt")]
         case _:
-            print("subfolder error - " + subfolder)
+            print("Subfolder error - " + subfolder)
             return
 
     if "youtube.com/watch?v=" in url or "youtube.com/playlist?list=" in url or "youtube.com/show/" in url:
@@ -80,7 +80,7 @@ def search(rep, options=""):
     doEnds         = "e" in options
     doStatus       = "s" in options
     if doTitle and doArtist:
-        print("Title and Artist cannot go together!")
+        print("Title and Artist cannot go together")
         return
     if doBackup:
         backupFile = open(os.path.join(config,f"dname/{time.strftime('%Y%m%d')}.txt"), "x", encoding="utf-8")
@@ -97,7 +97,7 @@ def search(rep, options=""):
     for file in os.listdir(dir):
         path = os.path.join(dir, file)
         if not path.endswith(".mp3"):
-            print(file, " - is not a mp3!")
+            print(file, " - is not a mp3")
             continue
         #audio = ID3(path)
         #title = audio["TIT2"].text[0]
@@ -108,13 +108,13 @@ def search(rep, options=""):
 
         if doBackup:
             backupFile.write(file+"\n")
-        if doTitle: # search through titles
+        if doTitle:
             audio = ID3(path)
             name = audio["TIT2"].text[0]
-        elif doArtist: # search through artists
+        elif doArtist:
             audio = ID3(path)
             name = audio["TPE1"].text[0]
-        elif doAlbum: # search through artists
+        elif doAlbum:
             try:
                 audio = ID3(path)
                 name = audio["TALB"].text[0]
@@ -162,7 +162,6 @@ def search(rep, options=""):
                         newName = newName[:-len(rep)].removesuffix("　").removesuffix(" ")
 
             if not (doRemove and newName == name):
-                # only dont print when remove and newName == name
                 if doArtist:
                     print(newName + "\t->\t" + file)
                 else:
@@ -236,8 +235,4 @@ elif len(sys.argv) == 3:
     search(sys.argv[1],sys.argv[2])
 else:
     search(sys.argv[1])
-
-
-
-
 
