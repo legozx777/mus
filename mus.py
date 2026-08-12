@@ -66,16 +66,16 @@ def search(rep, options=""):
     from mutagen.mp3 import MP3
     from mutagen.id3 import ID3, TIT2, TPE1, TALB
 
-    doStrictRemove = "R" in options
-    doRemove       = "r" in options or doStrictRemove
-    doBackup       = "b" in options
-    doFound        = "f" in options
-    doLength       = "l" in options
     doTitle        = "t" in options
     doArtist       = "a" in options
     doAlbum        = "A" in options
+    doStrictRemove = "R" in options
+    doRemove       = "r" in options or doStrictRemove
     doEnds         = "e" in options
-    doStatus       = "s" in options
+    doBackup       = "b" in options
+    doFound        = "f" in options
+    doLength       = "l" in options
+    doStatus       = "s" in options or doLength
     if doTitle and doArtist:
         print("Title and Artist cannot go together")
         return
