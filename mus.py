@@ -76,8 +76,8 @@ def search(rep, options=""):
     doFound        = "f" in options
     doLength       = "l" in options
     doStatus       = "s" in options or doLength
-    if doTitle and doArtist:
-        print("Title and Artist cannot go together")
+    if doTitle and (doArtist or doAlbum) or (doArtist and doAlbum):
+        print("Title, Artist, and Album cannot go together")
         return
     if doBackup:
         backupFile = open(os.path.join(PROGRAM_FOLDER, "dname", f"{time.strftime('%Y%m%d')}.txt"), "x", encoding="utf-8")
