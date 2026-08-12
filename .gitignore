@@ -1,6 +1,8 @@
-.env
+**.env
 yt-dlp.conf
 
-logs/*
-dname/*
-dfound/*
+logs/**
+dname/**
+dfound/**
+
+!example.*
