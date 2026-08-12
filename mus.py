@@ -225,12 +225,7 @@ def search(rep, options=""):
 if len(sys.argv) == 1:
     print("No arguments")
 elif sys.argv[1] in SUB_FOLDERS:
-    if len(sys.argv) == 3:
-        download(sys.argv[1],sys.argv[2])
-    else:
-        download(sys.argv[1])
-elif len(sys.argv) == 3:
-    search(sys.argv[1],sys.argv[2])
+    download(*sys.argv[1:])
 else:
-    search(sys.argv[1])
+    search(*sys.argv[1:])
 
