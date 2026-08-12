@@ -3,10 +3,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 SUB_FOLDERS = ["d", "long", "rand", "stream", "useful", "randmp3", "print"]
-BASE_FOLDER = os.getenv("MUS_BASE_FOLDER")
+BASE_FOLDER = os.path.realpath(os.path.expanduser(os.getenv("MUS_BASE_FOLDER", "No base folder set")))
 PROGRAM_FOLDER = os.path.dirname(os.path.realpath(__file__))
 
-if BASE_FOLDER == None or not os.path.exists(BASE_FOLDER):
+if not os.path.isdir(BASE_FOLDER):
     print("Base folder does not exist or is not set")
     sys.exit()
 
