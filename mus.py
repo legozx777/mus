@@ -13,7 +13,7 @@ if not os.path.isdir(BASE_FOLDER):
     print("Base folder does not exist or is not set")
     sys.exit()
 
-def download(subfolder, url=""):
+def download(subfolder, url="", extra=""):
     subfolder = subfolder.lower()
 
     if url.find("&") != -1:
@@ -54,12 +54,17 @@ def download(subfolder, url=""):
     else:
         print(f"url error - len={len(url)} - url={url}")
         return
+
+    args.append(extra)
+
     errFile = ""
-    if "playlist" in args[-1] or "show" in args[-1]:
+    if "playlist" in args[-2] or "show" in args[-2]:
         errFile = os.path.join(PROGRAM_FOLDER, f"logs/{time.strftime('%Y%m%d-%H%M')}.txt")
         args.append(f"2>{errFile}")
+
     print(" ".join(args))
     os.system(" ".join(args))
+
     if errFile and os.path.getsize(errFile) == 0:
         print(f"Removing empty error file: {errFile}")
         os.remove(errFile)
