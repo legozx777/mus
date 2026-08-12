@@ -105,14 +105,16 @@ def search(rep, options=""):
 
         if doBackup:
             backupFile.write(file+"\n")
+        audio = ID3(path)
         if doTitle:
-            audio = ID3(path)
+            if "TIT2" not in audio.keys():
+                continue
             name = audio["TIT2"].text[0]
         elif doArtist:
-            audio = ID3(path)
+            if "TPE1" not in audio.keys():
+                continue
             name = audio["TPE1"].text[0]
         elif doAlbum:
-            audio = ID3(path)
             if "TALB" not in audio.keys():
                 continue
             name = audio["TALB"].text[0]
@@ -121,7 +123,6 @@ def search(rep, options=""):
         #try:
         #    a = ID3(path)["TIT2"]
         #except:
-        #    audio = ID3(path)
         #    audio.add(TIT2(encoding=3, text=file.removesuffix(".mp3")))
         #    audio.save()
         #    print(name)
@@ -185,11 +186,11 @@ def search(rep, options=""):
                 continue
             path = os.path.join(dir, file)
             audio = ID3(path)
-            if "  " in audio["TIT2"].text[0]:
+            if "TIT2" in audio.keys() and "  " in audio["TIT2"].text[0]:
                 newName = re.sub(r" {2,}", " ", audio["TIT2"].text[0])
                 audio["TIT2"] = TIT2(encoding=3, text=newName)
                 audio.save(v2_version=3)
-            if "  " in audio["TPE1"].text[0]:
+            if "TPE1" in audio.keys() and "  " in audio["TPE1"].text[0]:
                 newName = re.sub(r" {2,}", " ", audio["TPE1"].text[0])
                 audio["TPE1"] = TPE1(encoding=3, text=newName)
                 audio.save(v2_version=3)
