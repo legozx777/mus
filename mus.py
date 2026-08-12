@@ -1,5 +1,8 @@
 import os, sys, time, re
 from dotenv import load_dotenv
+from mutagen.mp3 import MP3
+from mutagen.id3 import ID3, TIT2, TPE1, TALB
+
 load_dotenv()
 
 SUB_FOLDERS = ["d", "long", "rand", "stream", "useful", "randmp3", "print"]
@@ -63,9 +66,6 @@ def download(subfolder, url=""):
 
 
 def search(rep, options=""):
-    from mutagen.mp3 import MP3
-    from mutagen.id3 import ID3, TIT2, TPE1, TALB
-
     doTitle        = "t" in options
     doArtist       = "a" in options
     doAlbum        = "A" in options
