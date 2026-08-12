@@ -10,7 +10,7 @@ if not os.path.isdir(BASE_FOLDER):
     print("Base folder does not exist or is not set")
     sys.exit()
 
-def download(subfolder, url):
+def download(subfolder, url=""):
     subfolder = subfolder.lower()
 
     if url.find("&") != -1:
@@ -223,7 +223,10 @@ def search(rep, options=""):
 if len(sys.argv) == 1:
     print("No arguments")
 elif sys.argv[1] in SUB_FOLDERS:
-    download(sys.argv[1],sys.argv[2])
+    if len(sys.argv) == 3:
+        download(sys.argv[1],sys.argv[2])
+    else:
+        download(sys.argv[1])
 elif len(sys.argv) == 3:
     search(sys.argv[1],sys.argv[2])
 else:
