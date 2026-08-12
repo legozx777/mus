@@ -32,6 +32,8 @@ def download(subfolder, url):
             print("Subfolder error - " + subfolder)
             return
 
+    if url == "" and subfolder == "print":
+        url = os.getenv("MUS_DEFUALT_PLAYLIST", "No default playlist set")
     if "youtube.com/watch?v=" in url or "youtube.com/playlist?list=" in url or "youtube.com/show/" in url:
         args.append(url)
     elif len(url) == 11: # yt video
@@ -46,11 +48,6 @@ def download(subfolder, url):
         args.pop(1)
         args.pop(1)
         args.append("https://www.twitch.tv/videos/" + url)
-    elif url == "" and subfolder == "print":
-        args.append(os.getenv("MUS_DEFUALT_PLAYLIST"))
-        if args[-1] == None:
-            print("No default playlist set")
-            return
     else:
         print(f"url error - len={len(url)} - url={url}")
         return
