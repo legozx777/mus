@@ -24,10 +24,10 @@ def download(subfolder, url=""):
         case "rand" | "stream" | "useful":
             args += ["-f", "\"bv*[vcodec^=avc1][ext=mp4][height<=1080]+ba[ext=m4a]/b[vcodec^=avc1][ext=mp4][height<=1080]\""]
         case "randmp3":
-            args[4] = os.path.join(BASE_FOLDER,"rand")
+            args[4] = os.path.join(BASE_FOLDER, "rand")
             args += ["-x", "--audio-format", "mp3", "--audio-quality", "128k"]
         case "print":
-            args = ["yt-dlp", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(PROGRAM_FOLDER, "dname/id-"+time.strftime("%Y%m%d")+".txt")]
+            args = ["yt-dlp", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(PROGRAM_FOLDER, "dname", "id-"+time.strftime("%Y%m%d")+".txt")]
         case _:
             print("Subfolder error - " + subfolder)
             return
@@ -80,9 +80,9 @@ def search(rep, options=""):
         print("Title and Artist cannot go together")
         return
     if doBackup:
-        backupFile = open(os.path.join(PROGRAM_FOLDER, f"dname/{time.strftime('%Y%m%d')}.txt"), "x", encoding="utf-8")
+        backupFile = open(os.path.join(PROGRAM_FOLDER, "dname", f"{time.strftime('%Y%m%d')}.txt"), "x", encoding="utf-8")
     if doFound:
-        foundFile = open(os.path.join(PROGRAM_FOLDER, f"dfound/{time.strftime('%Y%m%d')}-{rep}.txt"), "x", encoding="utf-8")
+        foundFile = open(os.path.join(PROGRAM_FOLDER, "dfound", f"{time.strftime('%Y%m%d')}-{rep}.txt"), "x", encoding="utf-8")
     dir = os.path.join(BASE_FOLDER, SUB_FOLDERS[0])
     rep = rep.lower()
     count = 0
@@ -178,6 +178,7 @@ def search(rep, options=""):
                     audio.save(v2_version=3)
                 else:
                     os.rename(path, os.path.join(dir, newName+".mp3"))
+
     if doStrictRemove:
         for file in list(os.listdir(dir)): # removes double spaces in files, titles, and artists
             if not file.endswith(".mp3"):
@@ -199,7 +200,7 @@ def search(rep, options=""):
             if "  " in file:
                 newName = re.sub(r" {2,}", " ", file)
                 newPath = os.path.join(dir, newName)
-                os.rename(os.path.join(dir, file), newPath)
+                os.rename(path, newPath)
     if doStatus:
         print("\ncount: " + str(count))
         print("beginning or end count: " + str(bOrE))
