@@ -206,17 +206,17 @@ def search(rep, options=""):
         print("\ncount: " + str(count))
         print("beginning or end count: " + str(bOrE))
         if size > 0:
-            print("total size: " + str(size>>30) + "gb - " + str((size>>20) - (size>>30<<10)) + "mb")
-            perSize = size // count
-            print("perSize: " + str(perSize>>20) + "mb - " + str((perSize>>10) - (perSize>>20<<10)) + "kb")
+            print(f"total size: {size>>30}gb - {(size>>20) - (size>>30<<10)}mb")
+            aveSize = size // count
+            print(f"average size: {aveSize>>20}mb - {(aveSize>>10) - (aveSize>>20<<10)}kb")
         if length > 0:
-            print("total length: " + str(int(length//3600)) + "hr - " + str(int(length%3600//60)) + "min - " + str(int(length%60)) + " sec")
-            perLength = length // count
-            print("perLength: " + str(int(perLength%3600//60)) + "min - " + str(int(perLength%60)) + " sec")
+            print(f"total length: {int(length//3600)}hr - {int(length%3600//60)}min - {int(length%60)}sec")
+            aveLength = length // count
+            print(f"average length: {int(aveLength%3600//60)}min - {int(aveLength%60)}sec")
         if noURL > 0:
-            print("no url in metadata: " + str(noURL))
+            print(f"no url in metadata: {noURL}")
         if noCover > 0:
-            print("no cover in metadata: " + str(noCover))
+            print(f"no cover in metadata: {noCover}")
     if doBackup:
         backupFile.close()
     if doFound:
