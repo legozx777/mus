@@ -59,7 +59,7 @@ Base Folder
 
 ### download
 
-`python3 /path/to/mus.py <subfolder> <url>`
+`python3 /path/to/mus.py <subfolder> <url> <extra yt-dlp arguments>`
 
 Youtube videos, playlists, albums, shows, and twitch streams are all accepted. Both the full url and just the identifier work.
 
@@ -77,6 +77,9 @@ $ python3 mus.py d "rVs0EdiVefM"
 $ python3 mus.py d "https://www.youtube.com/playlist?list=PL9-3uiALO7exa6aF5as-bmK5qSFg30OUo"
 
 $ python3 mus.py d "PL9-3uiALO7exa6aF5as-bmK5qSFg30OUo"
+
+# only download the 1,2,3 videos in the playlist
+$ python3 mus.py d "PL9-3uiALO7exa6aF5as-bmK5qSFg30OUo" "-I '1:3'"
 ```
 
 ### search
