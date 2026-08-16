@@ -88,17 +88,18 @@ $ python3 mus.py d "PL9-3uiALO7exa6aF5as-bmK5qSFg30OUo" "-I '1:3'"
 The search folder will be the first item in the MUSD_FOLDERS list. The search term is case insensitive.
 
 #### Options:
-* t - title: search through titles instead of file names
-* a - artist: search through artists
-* A - album: search through albums
-* R - strict remove: remove term anywhere in the name
-* r - soft remove: remove only if term is at the beginning or end
-* e - ends: removes if the first and last character match
-* b - backup: write every file in the folder to a file in dname/
-* f - found: write every file with the search term to a file in dfound/
-* l - length: calculate lengths and display at the end
-* s - status: display count, would-remove count, total and average size, and total and average length if selected
-
+```
+t - title:        search through titles instead of file names
+a - artist:       search through artists
+A - album:        search through albums
+R - hard remove:  remove term anywhere in the name
+r - soft remove:  remove only if term is at the beginning or end
+e - ends:         removes if the first and last character match
+b - backup:       write every file in the folder to a file in dname/
+f - found:        write every file with the search term to a file in dfound/
+l - length:       calculate lengths and display at the end
+s - status:       display count, would-remove count, total and average size, and total and average length if selected
+```
 #### Examples:
 ```
 # searchs through file names in SUB_FOLDERS[0] for "search term" and prints them
