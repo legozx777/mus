@@ -74,13 +74,14 @@ def search(rep, options=""):
     doTitle        = "t" in options
     doArtist       = "a" in options
     doAlbum        = "A" in options
-    doStrictRemove = "R" in options
-    doRemove       = "r" in options or doStrictRemove
+    doHardRemove   = "R" in options
+    doSoftRemove   = "r" in options or doHardRemove
     doEnds         = "e" in options
     doBackup       = "b" in options
     doFound        = "f" in options
     doLength       = "l" in options
     doStatus       = "s" in options or doLength
+    doHelp         = "h" in options
     if doTitle and (doArtist or doAlbum) or (doArtist and doAlbum):
         print("Title, Artist, and Album cannot go together")
         return
@@ -149,21 +150,21 @@ def search(rep, options=""):
             if doFound:
                 foundFile.write(file+"\n")
             newName = name
-            if doEnds and doRemove:
+            if doEnds and doSoftRemove:
                 newName = newName[1:-1].removeprefix("　").removeprefix(" ").removesuffix("　").removesuffix(" ")
-            elif doStrictRemove:
+            elif doHardRemove:
                 newName = newName.replace(rep, "")
             else:
                 if newName.lower().startswith(rep):
                     bOrE += 1
-                    if doRemove:
+                    if doSoftRemove:
                         newName = newName[len(rep):].removeprefix("　").removeprefix(" ")
                 if newName.lower().endswith(rep):
                     bOrE += 1
-                    if doRemove:
+                    if doSoftRemove:
                         newName = newName[:-len(rep)].removesuffix("　").removesuffix(" ")
 
-            if not (doRemove and newName == name):
+            if not (doSoftRemove and newName == name):
                 if doArtist:
                     print(newName + "\t->\t" + file)
                 else:
@@ -172,7 +173,7 @@ def search(rep, options=""):
             count += 1
             if doLength:
                length += MP3(path).info.length
-            if doRemove:
+            if doSoftRemove:
                 if doTitle:
                     audio["TIT2"] = TIT2(encoding=3, text=newName)
                     audio.save(v2_version=3)
@@ -185,7 +186,7 @@ def search(rep, options=""):
                 else:
                     os.rename(path, os.path.join(dir, newName+".mp3"))
 
-    if doStrictRemove:
+    if doHardRemove:
         for file in list(os.listdir(dir)): # removes double spaces in files, titles, and artists
             if not file.endswith(".mp3"):
                 continue
@@ -222,6 +223,20 @@ def search(rep, options=""):
             print(f"no url in metadata: {noURL}")
         if noCover > 0:
             print(f"no cover in metadata: {noCover}")
+    if doHelp:
+        print("\nOPTIONS:")
+        print("t - title         - search through titles instead of file names")
+        print("a - artist        - search through artists instead of file names")
+        print("A - album         - search through albums instead of file names")
+        print("R - hard remove   - remove term anywhere in the name")
+        print("r - soft remove   - remove only if term is at the beginning or end")
+        print("e - ends          - remove if and only if the first and last character match")
+        print("b - backup        - write every file in the folder to a file in dname/")
+        print("f - found         - write every file with the search term in the folder to a file in dfound/")
+        print("l - length        - calculate lengths and display at the end")
+        print("s - status        - display count, would-remove count, total and average size, ")
+        print("                    and total and average length if selected")
+        print("h - help          - display this message")
     if doBackup:
         backupFile.close()
     if doFound:

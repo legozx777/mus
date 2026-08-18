@@ -89,16 +89,18 @@ The search folder will be the first item in the MUSD_FOLDERS list. The search te
 
 #### Options:
 ```
-t - title:        search through titles instead of file names
-a - artist:       search through artists
-A - album:        search through albums
-R - hard remove:  remove term anywhere in the name
-r - soft remove:  remove only if term is at the beginning or end
-e - ends:         removes if the first and last character match
-b - backup:       write every file in the folder to a file in dname/
-f - found:        write every file with the search term to a file in dfound/
-l - length:       calculate lengths and display at the end
-s - status:       display count, would-remove count, total and average size, and total and average length if selected
+t - title         - search through titles instead of file names
+a - artist        - search through artists instead of file names
+A - album         - search through albums instead of file names
+R - hard remove   - remove term anywhere in the name
+r - soft remove   - remove only if term is at the beginning or end
+e - ends          - remove if and only if the first and last character match
+b - backup        - write every file in the folder to a file in dname/
+f - found         - write every file with the search term in the folder to a file in dfound/
+l - length        - calculate lengths and display at the end
+s - status        - display count, would-remove count, total and average size, 
+                    and total and average length if selected
+h - help          - display this message
 ```
 #### Examples:
 ```
