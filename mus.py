@@ -59,7 +59,7 @@ def download(subfolder, url="", extra=""):
 
     errFile = ""
     if "playlist" in args[-2] or "show" in args[-2]:
-        errFile = os.path.join(PROGRAM_FOLDER, f"logs/{time.strftime('%Y%m%d-%H%M')}.txt")
+        errFile = os.path.join(PROGRAM_FOLDER, "logs", f"{time.strftime('%Y%m%d-%H%M')}.txt")
         args.append(f"2>{errFile}")
 
     print(" ".join(args))
