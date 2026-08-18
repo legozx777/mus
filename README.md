@@ -85,6 +85,7 @@ $ python3 mus.py d "PL9-3uiALO7exa6aF5as-bmK5qSFg30OUo" "-I '1:3'"
 ### search
 
 `python3 /path/to/mus.py <search term> <options>`
+
 The search folder will be the first item in the MUSD_FOLDERS list. The search term is case insensitive.
 
 #### Options:
