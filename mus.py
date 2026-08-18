@@ -91,12 +91,13 @@ def search(rep, options=""):
         foundFile = open(os.path.join(PROGRAM_FOLDER, "dfound", f"{time.strftime('%Y%m%d')}-{rep}.txt"), "x", encoding="utf-8")
     dir = os.path.join(BASE_FOLDER, SUB_FOLDERS[0])
     rep = rep.lower()
-    count = 0
-    bOrE = 0
-    size = 0
-    length = 0
-    noURL = 0
-    noCover = 0
+    searched = 0
+    matched  = 0
+    b_or_e   = 0
+    size     = 0
+    length   = 0
+    noURL    = 0
+    noCover  = 0
     for file in os.listdir(dir):
         path = os.path.join(dir, file)
         if not path.endswith(".mp3"):
@@ -146,6 +147,7 @@ def search(rep, options=""):
         #        noCover += 1
         #        print(name)
 
+        searched += 1
         if rep in name.lower() or (doEnds and name.startswith(rep[0]) and name.endswith(rep[-1])):
             if doFound:
                 foundFile.write(file+"\n")
@@ -156,11 +158,11 @@ def search(rep, options=""):
                 newName = newName.replace(rep, "")
             else:
                 if newName.lower().startswith(rep):
-                    bOrE += 1
+                    b_or_e += 1
                     if doSoftRemove:
                         newName = newName[len(rep):].removeprefix("　").removeprefix(" ")
                 if newName.lower().endswith(rep):
-                    bOrE += 1
+                    b_or_e += 1
                     if doSoftRemove:
                         newName = newName[:-len(rep)].removesuffix("　").removesuffix(" ")
 
@@ -170,7 +172,7 @@ def search(rep, options=""):
                 else:
                     print(newName)
             size += os.path.getsize(path)
-            count += 1
+            matched += 1
             if doLength:
                length += MP3(path).info.length
             if doSoftRemove:
@@ -209,8 +211,9 @@ def search(rep, options=""):
                 newPath = os.path.join(dir, newName)
                 os.rename(path, newPath)
     if doStatus:
-        print("\ncount: " + str(count))
-        print("beginning or end count: " + str(bOrE))
+        print(f"\nsearched: {searched}")
+        print(f"matched: {matched}")
+        print(f"beginning or end count: {b_or_e}")
         if size > 0:
             print(f"total size: {size>>30}gb - {(size>>20) - (size>>30<<10)}mb")
             aveSize = size // count
