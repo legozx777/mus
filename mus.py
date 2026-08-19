@@ -4,7 +4,6 @@ from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, TIT2, TPE1, TALB
 
 load_dotenv()
-
 SUB_FOLDERS = ["d", "long", "rand", "stream", "useful", "randmp3", "print"]
 BASE_FOLDER = os.path.realpath(os.path.expanduser(os.getenv("MUS_BASE_FOLDER", "No base folder set")))
 PROGRAM_FOLDER = os.path.dirname(os.path.realpath(__file__))
@@ -21,14 +20,15 @@ def download(subfolder, url="", extra=""):
 
     url = url.removeprefix("=")
     args = ["yt-dlp", "--config-location", os.path.join(PROGRAM_FOLDER, "yt-dlp.conf"), "-P", os.path.join(BASE_FOLDER, subfolder)]
+    BITRATE = os.getenv("MUS_BITRATE", "128k")
     match subfolder:
         case "d" | "long":
-            args += ["-o", "\"%(title)s.%(ext)s\"", "-x", "--audio-format", "mp3", "--audio-quality", "128k"]
+            args += ["-o", "\"%(title)s.%(ext)s\"", "-x", "--audio-format", "mp3", "--audio-quality", BITRATE]
         case "rand" | "stream" | "useful":
             args += ["-f", "\"bv*[vcodec^=avc1][ext=mp4][height<=1080]+ba[ext=m4a]/b[vcodec^=avc1][ext=mp4][height<=1080]\""]
         case "randmp3":
             args[4] = os.path.join(BASE_FOLDER, "rand")
-            args += ["-x", "--audio-format", "mp3", "--audio-quality", "128k"]
+            args += ["-x", "--audio-format", "mp3", "--audio-quality", BITRATE]
         case "print":
             args = ["yt-dlp", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(PROGRAM_FOLDER, "dname", "id-"+time.strftime("%Y%m%d")+".txt")]
         case _:

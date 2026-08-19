@@ -34,9 +34,14 @@ cp example.env .env
 cp example.yt-dlp.conf yt-dlp.conf
 ```
 
-Fill in MUS_BASE_FOLDER in .env, MUS_DEFAULT_PLAYLIST is optional
-
 Fill in path to ffmpeg and ffprobe binary in yt-dlp.conf. Keep all paths in yt-dlp.conf absolute and dont use ~. If you are using yt-dlp-ejs uncomment --js-runtimes in yt-dlp.conf and put the program and path to the binary.
+
+Fill in MUS_BASE_FOLDER in .env
+
+Optional fields in .env
+
+* MUS_DEFAULT_PLAYLIST: if default playlist for print, making this command work `python3 mus.py print`
+* MUS_BITRATE: default bitrate is 128k, settings this will overide that in audio downloads"
 
 download() and search() will be chosen based on if the first argument is part of SUB_FOLDERS.
 
