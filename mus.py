@@ -14,11 +14,10 @@ if not os.path.isdir(BASE_FOLDER):
 
 def download(subfolder, url="", extra=""):
     subfolder = subfolder.lower()
-
+    url = url.removeprefix("=")
     if url.find("&") != -1:
         url = url[:url.find("&")]
 
-    url = url.removeprefix("=")
     args = ["yt-dlp", "--config-location", os.path.join(PROGRAM_FOLDER, "yt-dlp.conf"), "-P", os.path.join(BASE_FOLDER, subfolder)]
     BITRATE = os.getenv("MUS_BITRATE", "128k")
     match subfolder:
@@ -56,7 +55,6 @@ def download(subfolder, url="", extra=""):
         return
 
     args.append(extra)
-
     errFile = ""
     if "playlist" in args[-2] or "show" in args[-2]:
         errFile = os.path.join(PROGRAM_FOLDER, "logs", f"{time.strftime('%Y%m%d-%H%M')}.txt")
@@ -82,6 +80,7 @@ def search(rep, options=""):
     doLength       = "l" in options
     doStatus       = "s" in options or doLength
     doHelp         = "h" in options
+
     if doTitle and (doArtist or doAlbum) or (doArtist and doAlbum):
         print("Title, Artist, and Album cannot go together")
         return
@@ -102,20 +101,15 @@ def search(rep, options=""):
     length   = 0
     noURL    = 0
     noCover  = 0
+
     for file in os.listdir(dir):
         path = os.path.join(dir, file)
         if not path.endswith(".mp3"):
             print(file, " - is not a mp3")
             continue
-        #audio = ID3(path)
-        #title = audio["TIT2"].text[0]
-        #artist = audio["TPE1"].text[0]
-        #if title.startswith(artist) or title.endswith(artist):
-        #    print(file)
-        #continue
-
         if doBackup:
             backupFile.write(file+"\n")
+
         audio = ID3(path)
         if doTitle:
             if "TIT2" not in audio.keys():
@@ -131,31 +125,34 @@ def search(rep, options=""):
             name = audio["TALB"].text[0]
         else: # default -> search by file name
             name = file.removesuffix(".mp3")
-        #try:
-        #    a = ID3(path)["TIT2"]
-        #except:
+
+        #title = audio["TIT2"].text[0]
+        #artist = audio["TPE1"].text[0]
+        #if title.startswith(artist) or title.endswith(artist):
+        #    print(file)
+        #continue
+
+        #if "TIT2" not in audio.keys():
         #    audio.add(TIT2(encoding=3, text=file.removesuffix(".mp3")))
         #    audio.save()
         #    print(name)
-        #try:
-        #    a = ID3(path)["TXXX:purl"]
-        #except:
+        #if "TXXX:purl" not in audio.keys():
         #    noURL += 1
         #    print(name)
-        #try:
-        #    a = ID3(path)["APIC:Album cover"]
-        #except:
-        #    try:
-        #        a = ID3(path)["APIC:"]
-        #    except:
-        #        noCover += 1
-        #        print(name)
+        #if "APIC:" not in audio.keys() and "APIC:Album cover" not in audio.keys():
+        #    noCover += 1
+        #    print(name)
 
         searched += 1
         if rep in name.lower() or (doEnds and name.startswith(rep[0]) and name.endswith(rep[-1])):
+            size += os.path.getsize(path)
+            matched += 1
+            newName = name
             if doFound:
                 foundFile.write(file+"\n")
-            newName = name
+            if doLength:
+               length += MP3(path).info.length
+
             if doEnds and doSoftRemove:
                 newName = newName[1:-1].removeprefix("　").removeprefix(" ").removesuffix("　").removesuffix(" ")
             elif doHardRemove:
@@ -175,10 +172,7 @@ def search(rep, options=""):
                     print(newName + "\t->\t" + file)
                 else:
                     print(newName)
-            size += os.path.getsize(path)
-            matched += 1
-            if doLength:
-               length += MP3(path).info.length
+
             if doSoftRemove:
                 if doTitle:
                     audio["TIT2"] = TIT2(encoding=3, text=newName)
