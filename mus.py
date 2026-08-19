@@ -4,7 +4,7 @@ from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, TIT2, TPE1, TALB
 
 load_dotenv()
-SUB_FOLDERS = ["d", "long", "rand", "stream", "useful", "randmp3", "print"]
+SUB_FOLDERS = [["d", "long"], ["rand", "stream", "useful"], ["print"]]
 BASE_FOLDER = os.path.realpath(os.path.expanduser(os.getenv("MUS_BASE_FOLDER", "No base folder set")))
 PROGRAM_FOLDER = os.path.dirname(os.path.realpath(__file__))
 
@@ -93,7 +93,7 @@ def search(rep, options=""):
     if doFound:
         foundFile = open(os.path.join(PROGRAM_FOLDER, "dfound", f"{time.strftime('%Y%m%d')}-{rep}.txt"), "x", encoding="utf-8")
 
-    dir = os.path.join(BASE_FOLDER, SUB_FOLDERS[0])
+    dir = os.path.join(BASE_FOLDER, SUB_FOLDERS[0][0])
     rep = rep.lower()
     searched = 0
     matched  = 0
@@ -251,7 +251,7 @@ def search(rep, options=""):
 
 if len(sys.argv) == 1:
     print("No arguments")
-elif sys.argv[1] in SUB_FOLDERS:
+elif any(sys.argv[1].removesuffix("mp3") in i for i in SUB_FOLDERS):
     download(*sys.argv[1:])
 else:
     search(*sys.argv[1:])
