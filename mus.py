@@ -28,7 +28,7 @@ def download(subfolder, url="", extra=""):
         args[4] = os.path.join(BASE_FOLDER, subfolder.removesuffix("mp3"))
         args += ["-x", "--audio-format", "mp3", "--audio-quality", BITRATE]
     elif any(subfolder == i for i in SUB_FOLDERS[2]):
-        args = ["yt-dlp", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(PROGRAM_FOLDER, "dname", "id-"+time.strftime("%Y%m%d")+".txt")]
+        args = ["yt-dlp", "--ignore-config", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(PROGRAM_FOLDER, "dname", "id-"+time.strftime("%Y%m%d")+".txt")]
     else:
         print("Subfolder error - " + subfolder)
         return
