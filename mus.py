@@ -20,19 +20,18 @@ def download(subfolder, url="", extra=""):
 
     args = ["yt-dlp", "--config-location", os.path.join(PROGRAM_FOLDER, "yt-dlp.conf"), "-P", os.path.join(BASE_FOLDER, subfolder)]
     BITRATE = os.getenv("MUS_BITRATE", "128k")
-    match subfolder:
-        case "d" | "long":
-            args += ["-o", "\"%(title)s.%(ext)s\"", "-x", "--audio-format", "mp3", "--audio-quality", BITRATE]
-        case "rand" | "stream" | "useful":
-            args += ["-f", "\"bv*[vcodec^=avc1][ext=mp4][height<=1080]+ba[ext=m4a]/b[vcodec^=avc1][ext=mp4][height<=1080]\""]
-        case "randmp3":
-            args[4] = os.path.join(BASE_FOLDER, "rand")
-            args += ["-x", "--audio-format", "mp3", "--audio-quality", BITRATE]
-        case "print":
-            args = ["yt-dlp", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(PROGRAM_FOLDER, "dname", "id-"+time.strftime("%Y%m%d")+".txt")]
-        case _:
-            print("Subfolder error - " + subfolder)
-            return
+    if any(subfolder == i for i in SUB_FOLDERS[0]):
+        args += ["-o", "\"%(title)s.%(ext)s\"", "-x", "--audio-format", "mp3", "--audio-quality", BITRATE]
+    elif any(subfolder == i for i in SUB_FOLDERS[1]):
+        args += ["-f", "\"bv*[vcodec^=avc1][ext=mp4][height<=1080]+ba[ext=m4a]/b[vcodec^=avc1][ext=mp4][height<=1080]\""]
+    elif any(subfolder.removesuffix("mp3") == i for i in SUB_FOLDERS[1]):
+        args[4] = os.path.join(BASE_FOLDER, subfolder.removesuffix("mp3"))
+        args += ["-x", "--audio-format", "mp3", "--audio-quality", BITRATE]
+    elif any(subfolder == i for i in SUB_FOLDERS[2]):
+        args = ["yt-dlp", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(PROGRAM_FOLDER, "dname", "id-"+time.strftime("%Y%m%d")+".txt")]
+    else:
+        print("Subfolder error - " + subfolder)
+        return
 
     if url == "" and subfolder == "print":
         url = os.getenv("MUS_DEFUALT_PLAYLIST", "No default playlist set")
