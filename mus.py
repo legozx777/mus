@@ -85,10 +85,14 @@ def search(rep, options=""):
     if doTitle and (doArtist or doAlbum) or (doArtist and doAlbum):
         print("Title, Artist, and Album cannot go together")
         return
+    if doEnds and doHardRemove:
+        print("Ends and HardRemove are incompatable, converting HardRemove to SoftRemove")
+        doHardRemove = False
     if doBackup:
         backupFile = open(os.path.join(PROGRAM_FOLDER, "dname", f"{time.strftime('%Y%m%d')}.txt"), "x", encoding="utf-8")
     if doFound:
         foundFile = open(os.path.join(PROGRAM_FOLDER, "dfound", f"{time.strftime('%Y%m%d')}-{rep}.txt"), "x", encoding="utf-8")
+
     dir = os.path.join(BASE_FOLDER, SUB_FOLDERS[0])
     rep = rep.lower()
     searched = 0
