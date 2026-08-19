@@ -10,7 +10,6 @@ This is my yt-dlp wrapper and music metadata manager. There is no gui and no pla
 [Python3](https://www.python.org/downloads/) versions 3.11+ (tested with 3.11 and 3.13), other versions may or may not work.
 
 [yt-dlp](https://github.com/yt-dlp/yt-dlp), [dotenv](https://github.com/theskumar/python-dotenv), [mutagen](https://github.com/quodlibet/mutagen)
-
 ```
 python3 -m pip install -U yt-dlp dotenv mutagen
 ```
@@ -20,7 +19,6 @@ python3 -m pip install -U yt-dlp dotenv mutagen
 #### Optional but highly recommended:
 
 [yt-dlp-ejs](https://github.com/yt-dlp/ejs) and deno (or other js runtime see [wiki](https://github.com/yt-dlp/yt-dlp/wiki/EJS))
-
 ```
 python3 -m pip install -U "yt-dlp[default]"
 ```
@@ -28,7 +26,6 @@ python3 -m pip install -U "yt-dlp[default]"
 ## Usage
 
 Copy the example files to their actual paths:
-
 ```
 cp example.env .env
 cp example.yt-dlp.conf yt-dlp.conf
@@ -63,8 +60,9 @@ Base Folder
 ```
 
 ### download
-
-`python3 /path/to/mus.py <subfolder> <url> <extra yt-dlp arguments>`
+```
+python3 /path/to/mus.py <subfolder> <url> <extra yt-dlp arguments>
+```
 
 Youtube videos, playlists, albums, shows, and twitch streams are all accepted. Both the full url and just the identifier work.
 
@@ -88,8 +86,9 @@ $ python3 mus.py d "PL9-3uiALO7exa6aF5as-bmK5qSFg30OUo" "-I '1:3'"
 ```
 
 ### search
-
-`python3 /path/to/mus.py <search term> <options>`
+```
+python3 /path/to/mus.py <search term> <options>
+```
 
 The search folder will be the first item in the MUSD_FOLDERS list. The search term is case insensitive.
 
@@ -108,6 +107,7 @@ s - status        - display count, would-remove count, total and average size,
                     and total and average length if selected
 h - help          - display this message
 ```
+
 #### Examples:
 ```
 # searchs through file names in SUB_FOLDERS[0] for "search term" and prints them
