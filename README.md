@@ -147,4 +147,4 @@ $ python3 mus.py [middle_is_ignored] er
 ```
 
 ## Bugs
-None that I know of. If you find one or want something added tell me in person.
+Youtube show url length keeps changing, use the full url for them. Playlists also sometimes have different lengths?. If you find one or want something added tell me in person.
