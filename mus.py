@@ -33,7 +33,7 @@ def download(subfolder, url="", extra=""):
         print("Subfolder error - " + subfolder)
         return
 
-    if url == "" and subfolder == "print":
+    if url == "" and any(subfolder == i for i in SUB_FOLDERS[2]):
         url = os.getenv("MUS_DEFUALT_PLAYLIST", "No default playlist set")
     if "youtube.com/watch?v=" in url or "youtube.com/playlist?list=" in url or "youtube.com/show/" in url:
         args.append(url)
