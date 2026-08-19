@@ -246,6 +246,8 @@ if len(sys.argv) == 1:
     print("No arguments")
 elif any(sys.argv[1].removesuffix("mp3") in i for i in SUB_FOLDERS):
     download(*sys.argv[1:])
+elif sys.argv[1] == "search":
+    search(*sys.argv[2:])
 else:
     search(*sys.argv[1:])
 

@@ -90,7 +90,7 @@ $ python3 mus.py d "PL9-3uiALO7exa6aF5as-bmK5qSFg30OUo" "-I '1:3'"
 python3 /path/to/mus.py <search term> <options>
 ```
 
-The search folder will be the first item in the MUSD_FOLDERS list. The search term is case insensitive.
+The search folder will be the first item in the MUSD_FOLDERS list. The search term is case insensitive. If you want to search for a subfolder name, use "search" as the first argument and shift everything over.
 
 #### Options:
 ```
@@ -115,6 +115,9 @@ $ python3 mus.py "search term"
 
 # searches through titles instead of file names
 $ python3 mus.py "search term" t
+
+# search for a subfolder name in file titles
+$ python3 mus.py search subfolder t
 
 # removes "rep" from beginning and end of file names
 $ python3 mus.py rep r
