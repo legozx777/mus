@@ -222,11 +222,11 @@ def search(rep, options=""):
         print(f"beginning or end count: {b_or_e}")
         if size > 0:
             print(f"total size: {size>>30}gb - {(size>>20) - (size>>30<<10)}mb")
-            aveSize = size // count
+            aveSize = size // matched
             print(f"average size: {aveSize>>20}mb - {(aveSize>>10) - (aveSize>>20<<10)}kb")
         if length > 0:
             print(f"total length: {int(length//3600)}hr - {int(length%3600//60)}min - {int(length%60)}sec")
-            aveLength = length // count
+            aveLength = length // matched
             print(f"average length: {int(aveLength%3600//60)}min - {int(aveLength%60)}sec")
         if noURL > 0:
             print(f"no url in metadata: {noURL}")
