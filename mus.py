@@ -35,9 +35,9 @@ def download(subfolder, url="", extra=""):
         args[4] = os.path.join(BASE_FOLDER, subfolder.removesuffix("mp3"))
         args += ["-x", "--audio-format", "mp3", "--audio-quality", BITRATE]
     elif any(subfolder == i for i in SUB_FOLDERS[2]):
-        args = ["yt-dlp", "--ignore-config", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(PROGRAM_FOLDER, "dname", "id-"+time.strftime("%Y%m%d")+".txt")]
+        args = ["yt-dlp", "--ignore-config", "--flat-playlist", "--skip-download", "--playlist-reverse", "--print-to-file", "\"%(id)s - %(title)s\"", os.path.join(PROGRAM_FOLDER, "dname", f"id-{time.strftime('%Y%m%d')}.txt")]
     else:
-        print("Subfolder error - " + subfolder)
+        print(f"Subfolder error - {subfolder}")
         return
 
     if url == "" and any(subfolder == i for i in SUB_FOLDERS[2]):
@@ -45,9 +45,9 @@ def download(subfolder, url="", extra=""):
     if "youtube.com/watch?v=" in url or "youtube.com/playlist?list=" in url or "youtube.com/show/" in url:
         args.append(url)
     elif len(url) == 11: # yt video
-        args.append("https://www.youtube.com/watch?v=" + url)
+        args.append(f"https://www.youtube.com/watch?v={url}")
     elif len(url) in [13, 34, 41, 26]: # yt (13, 34 - playlist, 41 - album, 26 - show)
-        args.append("https://www.youtube.com/playlist?list=" + url)
+        args.append(f"https://www.youtube.com/playlist?list={url}")
     elif "twitch.tv/videos" in url:
         args.pop(1)
         args.pop(1)
@@ -55,7 +55,7 @@ def download(subfolder, url="", extra=""):
     elif len(url) == 10: # twitch stream
         args.pop(1)
         args.pop(1)
-        args.append("https://www.twitch.tv/videos/" + url)
+        args.append(f"https://www.twitch.tv/videos/{url}")
     else:
         print(f"url error - len={len(url)} - url={url}")
         return
@@ -176,7 +176,7 @@ def search(rep, options=""):
 
             if not (doSoftRemove and newName == name):
                 if doArtist:
-                    print(newName + "\t->\t" + file)
+                    print(f"{newName}\t->\t{file}")
                 else:
                     print(newName)
 
