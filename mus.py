@@ -39,7 +39,7 @@ def download(subfolder, url="", extra=""):
         args.append(url)
     elif len(url) == 11: # yt video
         args.append("https://www.youtube.com/watch?v=" + url)
-    elif len(url) == 13 or len(url) == 34 or len(url) == 41: # yt (13, 34 - playlist, 41 - album)
+    elif len(url) == 13 or len(url) == 34 or len(url) == 41 or len(url) == 26: # yt (13, 34 - playlist, 41 - album, 26 - show)
         args.append("https://www.youtube.com/playlist?list=" + url)
     elif "twitch.tv/videos" in url:
         args.pop(1)
