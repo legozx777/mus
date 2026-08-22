@@ -1,12 +1,18 @@
-import os, sys, time, re
+import os, sys, time, re, json
 from dotenv import load_dotenv
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, TIT2, TPE1, TALB
 
 load_dotenv()
-SUB_FOLDERS = [["d", "long"], ["rand", "stream", "useful"], ["print"]]
 BASE_FOLDER = os.path.realpath(os.path.expanduser(os.getenv("MUS_BASE_FOLDER", "No base folder set")))
 PROGRAM_FOLDER = os.path.dirname(os.path.realpath(__file__))
+
+SUB_FOLDERS = []
+for i in range(3):
+    SUB_FOLDERS.append(json.loads(os.getenv(f"MUS_SUB_FOLDERS__{i}", "[]")))
+    if SUB_FOLDERS[-1] == []:
+        print(f"Sub folder group {i} is not set")
+        sys.exit()
 
 if not os.path.isdir(BASE_FOLDER):
     print("Base folder does not exist or is not set")
