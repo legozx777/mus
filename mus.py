@@ -19,6 +19,7 @@ if not os.path.isdir(BASE_FOLDER):
     sys.exit()
 
 def download(subfolder, url="", extra=""):
+    print("Starting download")
     subfolder = subfolder.lower()
     url = url.removeprefix("=")
     if url.find("&") != -1:
@@ -74,6 +75,7 @@ def download(subfolder, url="", extra=""):
 
 
 def search(rep, options=""):
+    print("Starting search")
     doTitle        = "t" in options
     doArtist       = "a" in options
     doAlbum        = "A" in options
