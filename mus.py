@@ -25,12 +25,13 @@ def download(subfolder, url="", extra=""):
     if url.find("&") != -1:
         url = url[:url.find("&")]
 
-    args = ["yt-dlp", "--config-location", os.path.join(PROGRAM_FOLDER, "yt-dlp.conf"), "-P", os.path.join(BASE_FOLDER, subfolder)]
     BITRATE = os.getenv("MUS_BITRATE", "128k")
+    FORMAT = os.getenv("MUS_FORMAT", "\"bv*[vcodec^=avc1][ext=mp4][height<=1080]+ba[ext=m4a]/b[vcodec^=avc1][ext=mp4][height<=1080]\"")
+    args = ["yt-dlp", "--config-location", os.path.join(PROGRAM_FOLDER, "yt-dlp.conf"), "-P", os.path.join(BASE_FOLDER, subfolder)]
     if any(subfolder == i for i in SUB_FOLDERS[0]):
         args += ["-o", "\"%(title)s.%(ext)s\"", "-x", "--audio-format", "mp3", "--audio-quality", BITRATE]
     elif any(subfolder == i for i in SUB_FOLDERS[1]):
-        args += ["-f", "\"bv*[vcodec^=avc1][ext=mp4][height<=1080]+ba[ext=m4a]/b[vcodec^=avc1][ext=mp4][height<=1080]\""]
+        args += ["-f", FORMAT]
     elif any(subfolder.removesuffix("mp3") == i for i in SUB_FOLDERS[1]):
         args[4] = os.path.join(BASE_FOLDER, subfolder.removesuffix("mp3"))
         args += ["-x", "--audio-format", "mp3", "--audio-quality", BITRATE]
