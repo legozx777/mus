@@ -43,7 +43,7 @@ def download(subfolder, url="", extra=""):
 
     if url == "" and any(subfolder == i for i in SUB_FOLDERS[2]):
         url = os.getenv("MUS_DEFUALT_PLAYLIST", "No default playlist set")
-    if "youtube.com" in url:
+    if "https://" in url or "youtube.com" in url:
         args.append(url)
     elif len(url) == 11: # yt video
         args.append(f"https://www.youtube.com/watch?v={url}")
