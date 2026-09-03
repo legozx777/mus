@@ -164,6 +164,7 @@ def search(rep, options=""):
             if doEnds and doSoftRemove:
                 newName = newName[1:-1].removeprefix("　").removeprefix(" ").removesuffix("　").removesuffix(" ")
             elif doHardRemove:
+                index = newName.lower().find(rep)
                 newName = newName[:index] + newName[index+len(rep):]
             else:
                 if newName.lower().startswith(rep):
